@@ -1,0 +1,40 @@
+svg {
+    border: 1px solid black;
+}
+
+.selected {
+    fill: gray !important;
+    /* Màu cho đa giác được chọn */
+}
+
+.axis line,
+.axis path {
+    stroke: black;
+    fill: none;
+}
+
+.grid line {
+    stroke: lightgray;
+    /* Màu cho lưới */
+    stroke-opacity: 0.7;
+    /* Độ trong suốt của lưới */
+    z-index: -1;
+}
+
+polygon {
+    fill: url(#gradient);
+    stroke: #000;
+}
+
+#canvas {
+    border: #000 solid;
+}
+
+h1 {
+    text-align: center;
+    color: red;
+}
+
+.select {
+    margin-bottom: 10px;
+}

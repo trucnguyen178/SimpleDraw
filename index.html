@@ -1,0 +1,66 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <title>Simple 3D</title>
+    <script type="importmap">
+        {
+          "imports": {
+            "three": "https://unpkg.com/three/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three/examples/jsm/"
+          }
+        }
+      </script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div>
+        <h1>2D points</h1>
+        <div class="select">
+            <b>Select section:</b> <select id="sectionSelect"></select>
+        </div>
+        <svg width="100%" height="400" style="padding: 20px;">
+            <g id="TwoDimension"></g>
+        </svg>
+    </div>
+    <div>
+        <h1>3D points</h1>
+        <div id="canvas" width="100%" style="padding: 20px;"></div>
+    </div>
+    
+    <script type="module">
+        import { draw3DPoints } from './js/draw3D.js';
+        import { draw2DPoints } from './js/draw2D.js';
+
+        const sectionSelect = d3.select("#sectionSelect");
+        let sections;
+
+        fetch('Example.json')
+            .then(response => response.json())
+            .then(data => {
+                sections = data.polygonsBySection;
+
+                sections.forEach(section => {
+                    sectionSelect.append("option")
+                        .attr("value", section.sectionId)
+                        .text(section.sectionName);
+                });
+
+                sectionSelect.on("change", changeSection);              
+                changeSection();
+
+                draw3DPoints(sections);
+            });  
+            
+        function changeSection() {
+            const selectedValue = sectionSelect.property("value");
+            const selectedSection = sections.find(section => section.sectionId === selectedValue);
+            draw2DPoints(selectedSection);
+        }
+    </script>
+</body>
+
+</html>
